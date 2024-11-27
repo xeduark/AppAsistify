@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+:root{
+    --purpura-oscuro: #776BCC;
+    --purpura-claro: #C7C5F4;
+    --purpura-oscuro-2:#4C489D;
+    --purpura-claro-2:#7C78B8;
+    --purpura-oscuro-2:#5D54A4;
+    --purpura-oscuro-3:#6C63AC;
+    --purpura-claro-3:#6A679E;
+    --purpura-claro-4:#7E7BB9;
+    --purpura-oscuro-4:#5C5696;
+    --purpura-claro-5:#7875B5;
+    --gris-claro: #CBCBCB;
+    --gris-oscuro: #8d8b8b;
+    --azul-claro: #4E8AC4;
+    --azul-claro-intermedio: #6cb5fa;
+    --negro: #000000;
+    --blanco: #fff;
+  }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0; 
+    font-family: Raleway, sans-serif;
+  }
+  /* body {
+    background: linear-gradient(90deg, var(--negro), var(--purpura-oscuro), var(--negro));
+    overflow: hidden;   
+  } */
+
+
+.main{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    margin-top: 60px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 2px black solid;
+    
+
+}
+.contenedor1{
+    width: 30%;
+    height: 500px;
+    border: 2px black solid;
+    display: block;
+}
+.contenedor2{
+    width: 70%;
+    height: 500px;
+    border: 2px black solid;  
+    text-align: center;
+    align-content: center;
+    
+    
+}
+.irLogin{
+    margin-top:  20px;
+    margin-left: 30px;
+    width: 10%;
+    height: 100px;
+    border: 2px black solid;
+    align-content: center;
+    text-align: center;
+}
+.irLogin img{
+    width: 80px;
+    height: 80px;
+}
+.logoEmpresa{
+    margin-top:  20px;
+    margin-left: 150px;
+    width: 60%;
+    height: 60%;
+    border: 2px black solid;
+    align-content: center;
+    text-align: center;
+}
+.logoEmpresa img{
+    width: 60%;
+    height: 60%;
+}
+.contenedor2 h1{
+    
+    font-size: 28px;
+    margin-top: 20px;
+}
+.contenedor2 h2{
+    
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.contenedorInformacion{
+    margin-left: 10%;
+    width: 80%;
+    height: 50%;
+  
+    border: 2px black solid; 
+    background-color: var(--azul-claro);
+    border-radius: 20px;
+}
+.input{
+    margin-top: 20px;
+    width: 80%;
+    height: 40px;
+    outline: none;
+    font-size: 25px;
+}
+ 
+.botones{
+    background: var(--purpura-claro);
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 5%;
+    padding: 10px;
+    border-radius: 26px;
+    border: 1px solid var(--gris-claro);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    
+    color: var(--purpura-oscuro-2);
+    box-shadow: 0px 2px 2px var(--purpura-oscuro-4);
+    cursor: pointer;
+    transition: .2s;
+    gap: 10px;
+}
+
+  .ingreso {
+    background: var(--purpura-claro-2);
+    font-size: 22px;
+    margin-top: 5px;
+    padding: 16px 20px;
+    border-radius: 26px;
+    border: 1px solid var(--gris-claro);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: var(--blanco);
+    box-shadow: 0px 2px 2px var(--purpura-oscuro-4);
+    cursor: pointer;
+    transition: .2s;
+    
+  }
+  .salida {
+    background: var(--purpura-oscuro-2);
+    font-size: 22px;
+    margin-top: 5px;
+    padding: 16px 20px;
+    border-radius: 26px;
+    border: 1px solid var(--gris-claro);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: var(--blanco);
+    box-shadow: 0px 2px 2px var(--purpura-oscuro-4);
+    cursor: pointer;
+    transition: .2s;
+  }
+  
+
+  .ingreso:active,
+  .ingreso:focus,
+  .ingreso:hover {
+    border-color: var(--purpura-claro-3);
+    outline: none;
+  }
+  .salida:active,
+  .salida:focus,
+  .salida:hover {
+    border-color: var(--purpura-claro-3);
+    outline: none;
+  }
+  
+  .buttonIconIngreso {
+    font-size: 24px;
+    margin-left: auto;
+    color: var(--purpura-claro-5);
+  }
+  
+  .buttonIconSalida {
+    font-size: 24px;
+    margin-left: auto;
+    color: var(--purpura-claro-5);
+  }
+  

@@ -1,0 +1,52 @@
+/* Estilos del Loader */
+:root{
+    --purpura-oscuro: #776BCC;
+    --purpura-claro: #C7C5F4;
+    --purpura-oscuro-2:#4C489D;
+    --purpura-claro-2:#7C78B8;
+    --purpura-oscuro-2:#5D54A4;
+    --purpura-oscuro-3:#6C63AC;
+    --purpura-claro-3:#6A679E;
+    --purpura-claro-4:#7E7BB9;
+    --purpura-oscuro-4:#5C5696;
+    --purpura-claro-5:#7875B5;
+    --azul-celeste: #8AFFE6;
+    --azul-oscuro: #1B3F4B;
+    --azul-oscuro-intermedio: #3b5d68;
+    --gris-claro: #CBCBCB;
+    --gris-oscuro: #696868;
+    --azul-oscuro: #4E8AC4;
+    --azul-claro-intermedio: #6cb5fa;
+    --negro: #000000;
+    --blanco: #fff;
+  }
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--blanco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Para que el loader se muestre encima de otros elementos */
+  }
+  
+  /* Logo dentro del loader */
+  .loaderLogo {
+    width: 150px; /* Tamaño inicial del logo */
+    height: auto;
+    animation: shrink 2s forwards; /* Animación que hará que el logo se haga pequeño */
+  }
+  
+  /* Animación para hacer el logo pequeño */
+  @keyframes shrink {
+    0% {
+      transform: scale(1); /* Tamaño inicial */
+    }
+    100% {
+      transform: scale(0.2); /* Tamaño final */
+    }
+  }
+  
