@@ -30,9 +30,9 @@ const DonutChart = ({ data }) => {
             position: 'bottom'
         },
         colors: [
-          'var(--donut-color-2)',
           'var(--donut-color-1)',
-          'var(--donut-color-3)'
+          'var(--donut-color-3)',
+          'var(--donut-color-2)'
         ],
       };
     return (

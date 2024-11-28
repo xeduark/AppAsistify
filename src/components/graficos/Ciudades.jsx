@@ -31,7 +31,7 @@ const BarCiudades = ({ data }) => {
       },
     },
     title: {
-      text: 'Gráfico de Ciudades',
+      text: 'Ciudades de residencia de empleados',
       align: 'center',
     },
   };
