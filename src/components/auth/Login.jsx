@@ -37,7 +37,7 @@ const Login = () => {
         localStorage.setItem("autenticacionToken", data.token); // Guardar el token en localStorage
         setIsLoading(true);
         setTimeout(() => {
-          navigate("/"); // Redirigir al dashboard
+          navigate("/home-graficos"); // Redirigir al dashboard
         }, 1500); // Tiempo de espera en milisegundos (1.5 segundos)
 
         setTimeout(() => {

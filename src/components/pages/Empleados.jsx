@@ -8,6 +8,7 @@ import { Table, Pagination, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./empleados.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import * as xlsx from "xlsx";
 import Swal from "sweetalert2";
 
 const Empleados = () => {
@@ -20,11 +21,33 @@ const Empleados = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [asistencias, setAsistencias] = useState({}); // Usa un objeto para buscar asistencias por empleadoID
 
   const navigate = useNavigate();
 
   // Obtener el token JWT de localStorage
   const token = localStorage.getItem("autenticacionToken");
+
+  useEffect(() => {
+    const obtenerAsistencias = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/asistencias/ver"); // Ajusta la URL según sea necesario
+        if (!response.ok) {
+          throw new Error(`Error fetching asistencias: ${response.status}`);
+        }
+        const data = await response.json();
+        const asistenciasPorEmpleado = {};
+        data.forEach((asistencia) => {
+          asistenciasPorEmpleado[asistencia.empleadoID] = asistencia.estado;
+        });
+        setAsistencias(asistenciasPorEmpleado);
+      } catch (error) {
+        setError("Error al obtener las asistencias.");
+        console.error("Error fetching asistencias:", error);
+      }
+    };
+    obtenerAsistencias();
+  }, []);
 
   // Crea la instancia de Toast
   const Toast = Swal.mixin({
@@ -81,7 +104,10 @@ const Empleados = () => {
 
   // Función para filtrar los usuarios
   const filterEmpleados = () => {
-    const filtered = empleados.filter((empleado) =>
+    const filtered = empleados.map((empleado) => ({
+      ...empleado,
+      estadoAsistencia: asistencias[empleado.id] || "Sin Asistencia", // Agrega estado de asistencia
+    })).filter((empleado) =>
       empleado.nombre.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredEmpleados(filtered);
@@ -120,6 +146,29 @@ const Empleados = () => {
     indexOfLastEmpleado
   );
   const totalPages = Math.ceil(filteredEmpleados.length / rowsPerPage);
+
+  const handleExport = () => {
+    const worksheet = xlsx.utils.json_to_sheet(empleados);
+    const workbook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(workbook, worksheet, "Empleados");
+    xlsx.writeFile(workbook, "empleados.xlsx");
+  };
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = xlsx.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const empleados = xlsx.utils.sheet_to_json(worksheet);
+      console.log(empleados); 
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -192,11 +241,11 @@ const Empleados = () => {
           <IoIosAdd className={style.icon} />
           Crear
         </button>
-        <button className={style.btnImport}>
+        <button className={style.btnImport} onClick={handleImport}>
           <CiImport className={style.icon} />
           Import
         </button>
-        <button className={style.btnExport}>
+        <button className={style.btnExport} onClick={handleExport}>
           <CiExport className={style.icon} />
           Export
         </button>
@@ -250,7 +299,7 @@ const Empleados = () => {
                 <td>{empleado.nombre}</td>
                 <td>{empleado.email}</td>
                 <td>{empleado.nivelEducativo}</td>
-                <td>Estado</td>
+                <td>{empleado.estadoAsistencia}</td>
                 <td>
                   <button className={style.btnVer}>
                     <GrFormViewHide />

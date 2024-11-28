@@ -11,6 +11,9 @@ import CrearEmpleado from "../forms/CrearEmpleado";
 import EditarEmpleado from "../forms/EditarEmpleado";
 import CrearAsistencia from "../forms/CrearAsistencia";
 import EditarAsistencia from "../forms/EditarAsistencia";
+import CrearAusencia from "../forms/CrearAusencia";
+import EditarAusencia from "../forms/EditarAusencias";
+import Home from "../pages/Home";
 import Dashboard from "../pages/Dashboard";
 
 
@@ -60,14 +63,25 @@ export let EnrutadorApp = [
                 element: <CrearAsistencia />
             },
             {
+                path: 'crear-ausencia',
+                element: <CrearAusencia />
+            },
+            {
                 path: '/asistencias/:id/editar',
                 element: <EditarAsistencia/>
             },
             {
+                path: '/ausencias/:id/editar',
+                element: <EditarAusencia/>
+            },
+            {
                 path: 'perfil',
                 element: <Perfil />
-            }
-           
+            },
+            {
+                path: 'home-graficos',
+                element: <Home />
+            },
         ]
     },
 ]

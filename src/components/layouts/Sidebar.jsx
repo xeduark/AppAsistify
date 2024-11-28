@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen }) => {
                 <img src="../../../public/images/logo.png" className={Style.logo} alt="logo-Asistify" />
                 <hr />
                 <li>
-                    <NavLink to="/" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
+                    <NavLink to="/home-graficos" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
                         <GrHomeRounded className={Style.icon}/>Inicio
                     </NavLink>
                 </li>
