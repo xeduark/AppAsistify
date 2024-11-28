@@ -30,7 +30,7 @@ const BarChart = ({ data }) => {
       }
     },
     title: {
-      text: 'Gráfico de Barras',
+      text: 'Nivel Educativo',
       align: 'center'
     },
   };

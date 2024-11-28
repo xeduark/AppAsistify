@@ -29,7 +29,7 @@ const ColumnChart = ({ data }) => {
             }
         },
         title: {
-            text: 'Gráfico de Columnas',
+            text: 'Empleados',
             align: 'center'
         },
     };
