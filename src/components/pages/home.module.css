@@ -1,0 +1,101 @@
+
+:root{
+    --purpura-oscuro: #776BCC;
+    --purpura-claro: #C7C5F4;
+    --purpura-oscuro-2:#4C489D;
+    --purpura-claro-2:#7C78B8;
+    --purpura-oscuro-2:#5D54A4;
+    --purpura-oscuro-3:#6C63AC;
+    --purpura-claro-3:#6A679E;
+    --purpura-claro-4:#7E7BB9;
+    --purpura-oscuro-4:#5C5696;
+    --purpura-claro-5:#7875B5;
+    --azul-celeste: #8AFFE6;
+    --azul-oscuro: #1B3F4B;
+    --azul-oscuro-intermedio: #3b5d68;
+    --azul-profundo:#0164f8;
+    --azul-profundo-oscuro:#0453c9;
+    --gris-claro: #CBCBCB;
+    --gris-oscuro:#6b6868;
+    --gris-oscuro-medio:#bbb8b8;
+    --azul-claro: #4E8AC4;
+    --azul-claro-intermedio: #6cb5fa;
+    --negro: #000000;
+    --blanco: #fff;
+    --verde: #017e0c;
+    --verde-claro:#03b912;
+    --naranja:#f86605;
+    --naranja-claro:#c25106;
+    --rojo:#f70511;
+    --rojo-claro:#c5060f;
+  }
+
+  .main{
+    width: 1000px;
+    max-height: 100vh; /* Ocupa el 80% de la altura de la ventana */
+  }
+
+  .containerMain{
+    display: flex;
+    top: 80px;
+    margin-left: 0px;
+    margin-right: 20px;
+    position: relative;
+    width: 63rem;
+    height: 80px;
+}
+
+.tittle{
+    font-size: 25px;
+    font-family: sans-serif;
+    color: var(--azul-oscuro);
+}
+
+  .grafContain{
+    display: flex;
+    margin-top: 80px;
+    height: 400px;
+    justify-content: space-between;
+  }
+
+  .donaContainer{
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--azul-oscuro);
+    padding: 10px;
+    width: 38%;
+    height: auto;
+    background: var(--blanco);
+  }
+
+  .barrasContainer{
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--azul-oscuro);
+    padding: 10px;
+    background: var(--blanco);
+    width: 58%;
+    height: auto;
+  }
+
+  .containerGraf{
+    display: flex;
+    margin-top: 50px;
+    height: 400px;
+    justify-content: space-between;
+  }
+
+  .columnContainer{
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--azul-oscuro);
+    padding: 10px;
+    background: var(--blanco);
+    width: 48%;
+    height: auto;
+  }
+  .barContainer{
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--azul-oscuro);
+    padding: 10px;
+    background: var(--blanco);
+    width: 48%;
+    height: auto;
+  }

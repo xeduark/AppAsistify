@@ -9,6 +9,9 @@ const  authRoutes = require('./routes/auth');
 const usuarioRoutes = require('./routes/usuarios');
 const empleados = require('./routes/empleados');
 const asistencias = require('./routes/asistencias');
+const ausencias = require('./routes/ausencias');
+const reportes = require('./routes/reportes');
+const graficos = require('./routes/graficos');
 
 
 // Middlewares
@@ -24,6 +27,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/usuario', usuarioRoutes);
 app.use('/api/empleados', empleados);
 app.use('/api/asistencias', asistencias);
+app.use('/api/ausencias', ausencias);
+app.use('/api/reportes', reportes);
+app.use('/api/generar', graficos);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
