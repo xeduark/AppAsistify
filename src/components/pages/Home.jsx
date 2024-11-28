@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { IoBarChartSharp } from "react-icons/io5";
-import BarChart from "../graficos/Barcharts"; 
+import BarChart from "../graficos/Barcharts";
 import DonutChart from "../graficos/Donutchart";
-import ColumnChart from "../graficos/Columnchart"; 
+import ColumnChart from "../graficos/Columnchart";
 import chartStyles from "./home.module.css";
+import BarCiudades from "../graficos/Ciudades";
 
 const Home = () => {
   // Estados para manejar los datos, la carga y los errores
@@ -64,6 +65,9 @@ const Home = () => {
     });
   }
 
+  // Ajustar la variable 'empleadosConCarrera'
+  const empleadosConCarrera = data ? data.empleadosConCarrera || 0 : 0;
+
   // Gráfico de dona: Porcentajes de estado de asistencias
   const estadoAsistenciasPorcentajes = {};
   let totalAsistencias = 0;
@@ -80,6 +84,9 @@ const Home = () => {
     }
   }
 
+  // Datos para el gráfico de Ciudades
+  const ciudadesData = data && data.ciudades ? data.ciudades : [];
+
   return (
     <div className={chartStyles.main}>
       <div className={chartStyles.containerMain}>
@@ -89,31 +96,30 @@ const Home = () => {
       </div>
       <div className={chartStyles.grafContain}>
         <div className={chartStyles.barrasContainer}>
-        <BarChart
-          data={{
-            series: [
-              {
-                name: "Nivel Educativo",
-                data: Object.values(data.empleadosPorNivelEducativo),
-              },
-              {
-                name: "Con Carrera",
-                data: [data.empleadosConCarrera || 0], // Manejo de caso nulo
-              },
-            ],
-            categories: [
-              ...Object.keys(data.empleadosPorNivelEducativo),
-              
-            ],
-          }}
+          <BarChart
+            data={{
+              series: [
+                {
+                  name: "Nivel Educativo",
+                  data: Object.values(data.empleadosPorNivelEducativo),
+                },
+                {
+                  name: "Con Carrera",
+                  data: [data.empleadosConCarrera || 0], // Manejo de caso nulo
+                },
+              ],
+              categories: [...Object.keys(data.empleadosPorNivelEducativo)],
+            }}
           />
         </div>
         <div className={chartStyles.donaContainer}>
-        <DonutChart
-          data={{
-            series: Object.values(data.estadoAsistenciasCounts).map(count => (count / data.totalEmpleados) * 100), //Calcula los porcentajes aqui
-            labels: Object.keys(data.estadoAsistenciasCounts)
-          }}
+          <DonutChart
+            data={{
+              series: Object.values(data.estadoAsistenciasCounts).map(
+                (count) => (count / data.totalEmpleados) * 100
+              ), //Calcula los porcentajes aqui
+              labels: Object.keys(data.estadoAsistenciasCounts),
+            }}
           />
         </div>
       </div>
@@ -121,19 +127,29 @@ const Home = () => {
         <div className={chartStyles.barContainer}>
           <ColumnChart
             data={{
-                series: [{ data: Object.values(data.estadoAsistenciasCounts) }],
-                categories: Object.keys(data.estadoAsistenciasCounts),
+              series: [{ data: Object.values(data.estadoAsistenciasCounts) }],
+              categories: Object.keys(data.estadoAsistenciasCounts),
             }}
           />
         </div>
-            <div className={chartStyles.columnContainer}>
-              <ColumnChart
-                data={{
-                  series: [{ data: [data.totalEmpleados] }],
-                  categories: ["Total Empleados"],
-                }}
-              />
-            </div>
+        <div className={chartStyles.columnContainer}>
+          <ColumnChart
+            data={{
+              series: [{ data: [data.totalEmpleados] }],
+              categories: ["Total Empleados"],
+            }}
+          />
+        </div>
+      </div>
+      <div className={chartStyles.ciudadesContainer}>
+        <div className={chartStyles.ciudades}>
+          <BarCiudades
+            data={{
+              series: [{ data: ciudadesData.map((ciudad) => ciudad.cantidad) }],
+              categories: ciudadesData.map((ciudad) => ciudad.nombre),
+            }}
+          />
+        </div>
       </div>
     </div>
   );

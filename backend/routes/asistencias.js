@@ -8,7 +8,7 @@ const formatTimestamp = (timestamp) => {
   if (timestamp instanceof admin.firestore.Timestamp) {
     return timestamp.toDate().toISOString(); // ISO 8601 para consistencia
   } else if (typeof timestamp === 'string'){
-    return timestamp; // Si ya es string, no lo modifiquemos
+    return timestamp; 
   } else {
     return null; // Maneja el caso de que no sea ni Timestamp ni string
   }
@@ -85,33 +85,34 @@ router.put('/:id', async (req, res) => {
     const asistenciaId = req.params.id;
     const { empleadoID, estado, fecha, horaEntrada, horaSalida } = req.body;
 
-    // Validación (puedes mantener o mejorar tu validación existente)
     if (!empleadoID || !estado || !fecha || !horaEntrada || !horaSalida) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
-    console.log("Datos recibidos:", req.body); // Para depuración
+    try {
+      // Convertir fecha y hora correctamente
+      const parsedFecha = new Date(`${fecha}T00:00:00`);
+      const parsedHoraEntrada = new Date(`${fecha}T${horaEntrada}`);
+      const parsedHoraSalida = new Date(`${fecha}T${horaSalida}`);
 
-    // Conversión de cadenas a objetos Date.  Es fundamental que 'fecha', 'horaEntrada' y 'horaSalida' sean strings en formato ISO 8601 validos. Si no lo son, Date.parse devolvera NaN
+      if (isNaN(parsedFecha) || isNaN(parsedHoraEntrada) || isNaN(parsedHoraSalida)) {
+        return res.status(400).json({ error: "Formato de fecha u hora inválido." });
+      }
 
-    const parsedFecha = new Date(Date.parse(fecha)); // Usar Date.parse para parsear la cadena
-    const parsedHoraEntrada = new Date(Date.parse(`${fecha}T${horaEntrada}`));
-    const parsedHoraSalida = new Date(Date.parse(`${fecha}T${horaSalida}`));
+      const asistenciaRef = db.collection('asistencias').doc(asistenciaId);
+      await asistenciaRef.update({
+        empleadoID,
+        estado,
+        fecha: admin.firestore.Timestamp.fromDate(parsedFecha),
+        horaEntrada: admin.firestore.Timestamp.fromDate(parsedHoraEntrada),
+        horaSalida: admin.firestore.Timestamp.fromDate(parsedHoraSalida),
+      });
 
-    if (isNaN(parsedFecha) || isNaN(parsedHoraEntrada) || isNaN(parsedHoraSalida)) {
-      return res.status(400).json({ error: "Formato de fecha u hora inválido" });
+      res.json({ message: 'Asistencia actualizada correctamente' });
+    } catch (error) {
+      console.error("Error al actualizar asistencia:", error);
+      return res.status(400).json({ error: 'Formato de fecha u hora inválido. Asegúrate de que sean cadenas ISO 8601.' });
     }
-
-    const asistenciaRef = db.collection('asistencias').doc(asistenciaId);
-    await asistenciaRef.update({
-      empleadoID,
-      estado,
-      fecha: admin.firestore.Timestamp.fromDate(parsedFecha), // ¡Aquí!
-      horaEntrada: admin.firestore.Timestamp.fromDate(parsedHoraEntrada), // ¡Aquí!
-      horaSalida: admin.firestore.Timestamp.fromDate(parsedHoraSalida), // ¡Aquí!
-    });
-
-    res.json({ message: 'Asistencia actualizada correctamente' });
   } catch (error) {
     console.error("Error al actualizar asistencia:", error);
     res.status(500).json({ error: 'Error al actualizar asistencia: ' + error.message });

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import style from "./gestionAusencias.module.css"; // Cambiar a tu archivo de estilos de ausencias
 import "bootstrap/dist/css/bootstrap.min.css";
+import * as XLSX from "xlsx";
 
 const GestionAusencias = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -138,6 +139,14 @@ const GestionAusencias = () => {
     }
   };
 
+   // Función para exportar los datos a un archivo Excel
+   const handleExport = () => {
+    const ws = XLSX.utils.json_to_sheet(filteredAusencias); // Convierte las ausencias filtradas a una hoja de Excel
+    const wb = XLSX.utils.book_new(); // Crea un nuevo libro de Excel
+    XLSX.utils.book_append_sheet(wb, ws, "Ausencias"); // Agrega la hoja al libro
+    XLSX.writeFile(wb, "ausencias.xlsx"); // Descarga el archivo Excel
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -201,7 +210,7 @@ const GestionAusencias = () => {
           <CiImport className={style.icon} />
           Import
         </button>
-        <button className={style.btnExport}>
+        <button className={style.btnExport} onClick={handleExport}>
           <CiExport className={style.icon} />
           Export
         </button>

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { CiImport, CiExport, CiSearch } from "react-icons/ci";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { GrFormViewHide } from "react-icons/gr";
 import { IoIosAdd } from "react-icons/io";
 import { Table, Pagination, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import style from "./gestionAsistencias.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
+import * as XLSX from "xlsx";
 
 const GestionAsistencias = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -24,6 +24,35 @@ const GestionAsistencias = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("autenticacionToken");
+
+  const exportarExcel = () => {
+    const encabezados = ["Empleado ID", "Estado", "Fecha", "Hora Entrada", "Hora Salida"];
+    
+    // Crea un arreglo con los datos de las asistencias
+    const data = filteredAsistencias.map((asistencia) => {
+      const formattedDate = formatDate(asistencia.fecha);
+      const formattedHoraEntrada = formatDate(asistencia.horaEntrada);
+      const formattedHoraSalida = formatDate(asistencia.horaSalida);
+      return [
+        asistencia.empleadoID || "-",
+        asistencia.estado || "-",
+        formattedDate ? formattedDate.toLocaleDateString() : "-",
+        formattedHoraEntrada ? formattedHoraEntrada.toLocaleTimeString() : "-",
+        formattedHoraSalida ? formattedHoraSalida.toLocaleTimeString() : "-"
+      ];
+    });
+  
+    // Agregar los encabezados al inicio de los datos
+    const exportData = [encabezados, ...data];
+  
+    // Crear la hoja de Excel a partir de los datos
+    const ws = XLSX.utils.aoa_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Asistencias");
+  
+    // Exportar el archivo Excel
+    XLSX.writeFile(wb, "asistencias.xlsx");
+  };
 
   // Crea la instancia de Toast
   const Toast = Swal.mixin({
@@ -51,8 +80,7 @@ const GestionAsistencias = () => {
   };
 
   const irEditar = (id) => {
-    console.log("ID a editar:", id, "Tipo de dato:", typeof id); 
-    navigate(`/asistencias/${id}/editar`);
+    navigate(`/asistencias/${id}/editar`); 
   };
 
   // Función para alternar la selección de todos los usuarios
@@ -228,7 +256,7 @@ const GestionAsistencias = () => {
           <CiImport className={style.icon} />
           Import
         </button>
-        <button className={style.btnExport}>
+        <button className={style.btnExport} onClick={exportarExcel}>
           <CiExport className={style.icon} />
           Export
         </button>
@@ -300,7 +328,7 @@ const GestionAsistencias = () => {
                   </td>
                   <td>{asistencia.estado || "-"}</td>
                   <td>
-                    <button className={style.btnEdit} onClick={irEditar}>
+                    <button className={style.btnEdit} onClick={() => irEditar(asistencia.id)}>
                       <MdEdit />
                     </button>
                     <button
