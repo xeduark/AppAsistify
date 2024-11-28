@@ -52,7 +52,7 @@ La aplicación se centrará exclusivamente en la gestión y visualización de la
 - **Frontend**: React + Vite y CSS
 - **Backend**: Node.js
 - **Analítica**: Python
-- **Gráficos**: React
+- **Gráficos**: React + ApexCharts
 - **Base de Datos**: Firebase
 # Inventario: Backend
 
