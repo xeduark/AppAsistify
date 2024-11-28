@@ -99,3 +99,16 @@
     width: 48%;
     height: auto;
   }
+
+  .ciudadesContainer{
+    width: 100%;
+    height: 400px;
+  }
+
+  .ciudades{
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--azul-oscuro);
+    padding: 10px;
+    background: var(--blanco);
+    margin-top: 50px;
+  }

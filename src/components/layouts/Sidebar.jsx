@@ -42,13 +42,13 @@ const Sidebar = ({ isOpen }) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/gestion-ausencias" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
-                        <FaUserSlash  className={Style.icon}/>Gestión Ausencias
+                    <NavLink to="/gestion-asistencias" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
+                        <FaUserCheck className={Style.icon}/>Gestión Asistencias
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/gestion-asistencias" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
-                        <FaUserCheck className={Style.icon}/>Gestión Asistencias
+                    <NavLink to="/gestion-ausencias" className={({ isActive }) => isActive ? `${Style.links} active` : Style.links}>
+                        <FaUserSlash  className={Style.icon}/>Gestión Ausencias
                     </NavLink>
                 </li>
                 <li>

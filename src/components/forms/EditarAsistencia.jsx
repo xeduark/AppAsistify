@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import Swal from "sweetalert2";
 
+
 const EditarAsistencia = () => {
   const { id } = useParams();
   const [error, setError] = useState(null);
@@ -54,9 +55,11 @@ const EditarAsistencia = () => {
 
         setEmpleadoID(data.empleadoID);
         setEstado(data.estado);
-        setFecha(data.fecha.toDate().toISOString().slice(0, 10));
-        setHoraEntrada(data.horaEntrada.toDate().toTimeString().slice(0, 8));
-        setHoraSalida(data.horaSalida.toDate().toTimeString().slice(0, 8));
+        setFecha(data.fecha.split("T")[0]); // Extraer solo la parte "YYYY-MM-DD"
+        // Ajustar la extracción de horas
+        setHoraEntrada(data.horaEntrada.split(":").slice(0, 2).join(":")); // Asegurar "HH:mm"
+        setHoraSalida(data.horaSalida.split(":").slice(0, 2).join(":")); // Asegurar "HH:mm"
+
       } catch (error) {
         setError(error.message);
         Swal.fire({
@@ -74,21 +77,13 @@ const EditarAsistencia = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
-    console.log("ID de la asistencia:", id); // Agrega esta línea
-    console.log("Datos a enviar:", {
-      empleadoID,
-      estado,
-      fecha,
-      horaEntrada,
-      horaSalida,
-    });
+    
     try {
-      // Aquí van las líneas que agregaste:
-      const fechaISO = new Date(fecha).toISOString();
-      const horaEntradaISO = new Date(`${fecha}T${horaEntrada}`).toISOString();
-      const horaSalidaISO = new Date(`${fecha}T${horaSalida}`).toISOString();
-
+      // Formatear la fecha y las horas en formato ISO 8601
+      const fechaISO = fecha; // Se supone que ya está en "YYYY-MM-DD"
+      const horaEntradaISO = horaEntrada.length === 5 ? `${horaEntrada}:00` : horaEntrada; // "HH:mm:ss"
+      const horaSalidaISO = horaSalida.length === 5 ? `${horaSalida}:00` : horaSalida; // "HH:mm:ss"
+  
       const response = await fetch(
         `http://localhost:5000/api/asistencias/${id}`,
         {
@@ -103,14 +98,13 @@ const EditarAsistencia = () => {
           }),
         }
       );
-
+  
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage =
-          errorData.error || `Error HTTP: ${response.status}`;
+        const errorMessage = errorData.error || `Error HTTP: ${response.status}`;
         throw new Error(errorMessage);
       }
-
+  
       showSuccessToast();
       navigate("/gestion-asistencias");
     } catch (error) {
@@ -178,7 +172,7 @@ const EditarAsistencia = () => {
               className={styles.select}
               required
             >
-              <option value="">Seleccionar estado</option>
+              <option value="">{}</option>
               <option value="Presente">Presente</option>
               <option value="Tardanza">Tardanza</option>
               <option value="Ausente">Ausente</option>

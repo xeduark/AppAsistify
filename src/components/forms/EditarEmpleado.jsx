@@ -12,6 +12,7 @@ const EditarEmpleado = () => {
   const [email, setEmail] = useState("");
   const [nivelEducativo, setNivelEducativo] = useState("");
   const [carrera, setCarrera] = useState("");
+  const [ciudad, setCiudad] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,7 @@ const EditarEmpleado = () => {
         setEmail(data.email);
         setNivelEducativo(data.nivelEducativo);
         setCarrera(data.carrera);
+        setCiudad(data.ciudad);
       } catch (error) {
         setError(error.message);
         Swal.fire({
@@ -81,6 +83,7 @@ const EditarEmpleado = () => {
       email,
       nivelEducativo,
       carrera,
+      ciudad,
     };
 
     try {
@@ -107,6 +110,7 @@ const EditarEmpleado = () => {
         setEmail("");
         setNivelEducativo("");
         setCarrera("");
+        setCiudad(""); 
         showSuccessToast();
         navigate("/gestion-empleados");
       } else {
@@ -130,6 +134,24 @@ const EditarEmpleado = () => {
       setLoading(false);
     }
   };
+
+  const ciudades = [
+    "Bogotá",
+    "Medellín",
+    "Cali",
+    "Barranquilla",
+    "Cartagena",
+    "Cúcuta",
+    "Bucaramanga",
+    "Pereira",
+    "Santa Marta",
+    "Ibagué",
+    "Pasto",
+    "Manizales",
+    "Neiva",
+    "Villavicencio",
+    "Armenia",
+  ];
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -175,6 +197,23 @@ const EditarEmpleado = () => {
             />
             <div className={styles.label}>Nivel Educativo*</div>
           </div>
+
+          <select
+            type="text"
+            id="ciudad"
+            name="ciudad"
+            value={ciudad}
+            onChange={(e) => setCiudad(e.target.value)}
+            className={styles.selectt}
+          >
+            <option value="">Selecciona una ciudad</option>
+            {ciudades.map((ciudadOpcion) => (
+              <option key={ciudadOpcion} value={ciudadOpcion}>
+                {ciudadOpcion}
+              </option>
+            ))}
+          </select>
+            <div className={styles.labelSelect}>Ciudad*</div>
         </div>
 
         {/*INICIO DE LA COLUMNA 2*/}

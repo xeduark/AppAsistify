@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./crearEmpleado.module.css";
 import { IoIosAdd } from "react-icons/io";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const ServerForm = () => {
   const [nombre, setNombre] = useState("");
@@ -11,6 +11,7 @@ const ServerForm = () => {
   const [email, setEmail] = useState("");
   const [nivelEducativo, setNivelEducativo] = useState("");
   const [carrera, setCarrera] = useState("");
+  const [ciudad, setCiudad] = useState("");
   const [error, setError] = useState(null); // Estado para manejar errores
   const navigate = useNavigate();
 
@@ -24,21 +25,21 @@ const ServerForm = () => {
     didOpen: (toast) => {
       toast.onmouseenter = Swal.stopTimer;
       toast.onmouseleave = Swal.resumeTimer;
-    }
+    },
   });
 
   // Función para mostrar un Toast de éxito después de crear una receta
   const showSuccessToast = () => {
     Toast.fire({
-      icon: 'success',
-      title: 'Empleado creado exitosamente'
+      icon: "success",
+      title: "Empleado creado exitosamente",
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
-    
+
     const nuevoEmpleado = {
       nombre,
       apellido,
@@ -46,10 +47,19 @@ const ServerForm = () => {
       email,
       nivelEducativo,
       carrera,
+      ciudad,
     };
 
     // Validación del formulario
-    if (!nombre || !apellido || !edad || !email || !nivelEducativo || !carrera) {
+    if (
+      !nombre ||
+      !apellido ||
+      !edad ||
+      !email ||
+      !nivelEducativo ||
+      !carrera ||
+      !ciudad
+    ) {
       setError("Todos los campos son obligatorios.");
       return;
     }
@@ -58,14 +68,17 @@ const ServerForm = () => {
     const token = localStorage.getItem("autenticacionToken");
 
     try {
-      const response = await fetch("http://localhost:5000/api/empleados/crear", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(nuevoEmpleado),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/empleados/crear",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(nuevoEmpleado),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -77,33 +90,52 @@ const ServerForm = () => {
         setEmail("");
         setNivelEducativo("");
         setCarrera("");
+        setCiudad("");
         showSuccessToast();
         navigate("/gestion-empleados");
       } else {
         const errorData = await response.json();
         setError(errorData.message);
         Swal.fire({
-          icon: 'error',
-          title: 'Error al crear',
-          text: 'Error al crear el empleado: ' + errorData.message,
+          icon: "error",
+          title: "Error al crear",
+          text: "Error al crear el empleado: " + errorData.message,
         });
       }
     } catch (error) {
       console.log("Error creando empleado:", error);
       setError("Error al crear el empleado.");
       Swal.fire({
-        icon: 'error',
-        title: 'Error al crear',
-        text: 'Error al crear el empleado.',
+        icon: "error",
+        title: "Error al crear",
+        text: "Error al crear el empleado.",
       });
     }
   };
 
+  const ciudades = [
+    "Bogotá",
+    "Medellín",
+    "Cali",
+    "Barranquilla",
+    "Cartagena",
+    "Cúcuta",
+    "Bucaramanga",
+    "Pereira",
+    "Santa Marta",
+    "Ibagué",
+    "Pasto",
+    "Manizales",
+    "Neiva",
+    "Villavicencio",
+    "Armenia",
+  ];
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <h2 className={styles.tittle}>
-        <IoIosAdd /> Crear Empleado</h2>
+        <IoIosAdd /> Crear Empleado
+      </h2>
       <div className={styles.container}>
         {/*INICIO DE LA COLUMNA 1*/}
         <div className={styles.columnUno}>
@@ -142,6 +174,23 @@ const ServerForm = () => {
             />
             <div className={styles.label}>Nivel Educativo*</div>
           </div>
+
+          <select
+            type="text"
+            id="ciudad"
+            name="ciudad"
+            value={ciudad}
+            onChange={(e) => setCiudad(e.target.value)}
+            className={styles.selectt}
+          >
+            <option value="">Selecciona una ciudad</option>
+            {ciudades.map((ciudadOpcion) => (
+              <option key={ciudadOpcion} value={ciudadOpcion}>
+                {ciudadOpcion}
+              </option>
+            ))}
+          </select>
+            <div className={styles.labelSelect}>Ciudad*</div>
         </div>
 
         {/*INICIO DE LA COLUMNA 2*/}
@@ -183,7 +232,7 @@ const ServerForm = () => {
           </div>
         </div>
 
-        <button type="submit"  className={styles.button}>
+        <button type="submit" className={styles.button}>
           Guardar
         </button>
       </div>

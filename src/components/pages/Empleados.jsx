@@ -31,7 +31,9 @@ const Empleados = () => {
   useEffect(() => {
     const obtenerAsistencias = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/asistencias/ver"); // Ajusta la URL según sea necesario
+        const response = await fetch(
+          "http://localhost:5000/api/asistencias/ver"
+        ); // Ajusta la URL según sea necesario
         if (!response.ok) {
           throw new Error(`Error fetching asistencias: ${response.status}`);
         }
@@ -78,6 +80,10 @@ const Empleados = () => {
     navigate(`/empleados/${id}/editar`);
   };
 
+  const detalles = (id) => {
+    navigate(`/empleado/${id}/detalle`);
+  };
+
   // Función para alternar la selección de todos los usuarios
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -104,12 +110,14 @@ const Empleados = () => {
 
   // Función para filtrar los usuarios
   const filterEmpleados = () => {
-    const filtered = empleados.map((empleado) => ({
-      ...empleado,
-      estadoAsistencia: asistencias[empleado.id] || "Sin Asistencia", // Agrega estado de asistencia
-    })).filter((empleado) =>
-      empleado.nombre.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const filtered = empleados
+      .map((empleado) => ({
+        ...empleado,
+        estadoAsistencia: asistencias[empleado.id] || "Sin Asistencia", // Agrega estado de asistencia
+      }))
+      .filter((empleado) =>
+        empleado.nombre.toLowerCase().includes(searchValue.toLowerCase())
+      );
     setFilteredEmpleados(filtered);
   };
 
@@ -164,7 +172,7 @@ const Empleados = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const empleados = xlsx.utils.sheet_to_json(worksheet);
-      console.log(empleados); 
+      console.log(empleados);
     };
 
     reader.readAsArrayBuffer(file);
@@ -301,7 +309,10 @@ const Empleados = () => {
                 <td>{empleado.nivelEducativo}</td>
                 <td>{empleado.estadoAsistencia}</td>
                 <td>
-                  <button className={style.btnVer}>
+                  <button
+                    className={style.btnVer}
+                    onClick={() => detalles(empleado.id)}
+                  >
                     <GrFormViewHide />
                   </button>
                   <button
