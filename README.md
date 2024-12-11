@@ -1,5 +1,10 @@
 # Proyecto: Panel de Control de Asistencia de Empleados
 
+![Login App](/public/images/loginAsistify.png)
+![Home App](/public/images/homeAsistify.png)
+![Lista App](/public/images/emplAsistify.png)
+![Crear App](/public/images/crearAsistify.png)
+
 ## Planteamiento del Problema
 
 En una empresa con un número significativo de empleados, el Administrador enfrenta serias dificultades para gestionar la asistencia debido a registros manuales y hojas de cálculo. Esta falta de un sistema centralizado provoca errores en el cálculo de horas trabajadas y dificultades en la generación de reportes precisos. La necesidad de un sistema que permita el seguimiento eficiente y preciso de la asistencia se vuelve evidente para optimizar la gestión del personal y facilitar la toma de decisiones.
